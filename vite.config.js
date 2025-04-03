@@ -18,7 +18,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
       name: 'DesignSystem',
-      fileName: (format) => `design-system.${format}.js`,
+      fileName: (format) => format === 'umd' ? `design-system.min.js` : `design-system.${format}.js`,
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
@@ -28,6 +28,7 @@ export default defineConfig({
         globals: {
           vue: 'Vue'
         },
+        exports: 'named', // 显式指定导出模式为named
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith('.css')) {
             return 'styles/design-system.css';
@@ -35,6 +36,7 @@ export default defineConfig({
           return assetInfo.name;
         }
       }
-    }
+    },
+    minify: 'terser' // 使用terser进行最小化
   }
 }) 

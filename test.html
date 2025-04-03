@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>设计系统测试</title>
+  <link rel="stylesheet" href="dist/styles/design-system.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 20px;
+    }
+    .test-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+    .component-test {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    .debug-panel {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="test-container">
+    <h1>设计系统组件测试</h1>
+    
+    <div class="component-test">
+      <h2>Button 按钮</h2>
+      <ds_button>默认按钮</ds_button>
+      <ds_button type="primary">主要按钮</ds_button>
+      <ds-button type="success">成功按钮</ds-button>
+      <ds-button type="warning">警告按钮</ds-button>
+    </div>
+    
+    <div class="component-test">
+      <h2>Icon 图标</h2>
+      <ds_icon name="home"></ds_icon>
+      <ds_icon name="settings"></ds_icon>
+      <ds-icon name="user"></ds-icon>
+    </div>
+    
+    <div class="component-test">
+      <h2>Input 输入框</h2>
+      <ds_input placeholder="请输入内容" v-model="inputValue"></ds_input>
+      <ds-input placeholder="带清除图标" clearable></ds-input>
+    </div>
+    
+    <div class="debug-panel">
+      <h3>调试信息</h3>
+      <p>Vue版本: {{ debug.vueVersion }}</p>
+      <p>DesignSystem对象键: {{ debug.dsKeys }}</p>
+      <p>已注册组件: {{ debug.componentsAvailable }}</p>
+      <button @click="testRegisterComponent">测试注册组件</button>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.js"></script>
+  <script src="dist/design-system.min.js"></script>
+  <script>
+    const { createApp, defineComponent } = Vue;
+    
+    // 创建一个测试组件
+    const TestComponent = defineComponent({
+      template: '<div>测试组件</div>',
+      name: 'TestComponent'
+    });
+    
+    const app = createApp({
+      data() {
+        return {
+          inputValue: '',
+          debug: {
+            vueVersion: Vue.version,
+            dsKeys: '未加载',
+            componentsAvailable: '未加载'
+          }
+        }
+      },
+      mounted() {
+        console.log('Vue app mounted');
+        console.log('DesignSystem:', DesignSystem);
+        
+        // 记录DesignSystem的键
+        this.debug.dsKeys = Object.keys(DesignSystem).join(', ');
+        
+        // 记录已注册的组件
+        this.debug.componentsAvailable = Object.keys(this.$options.components || {}).join(', ');
+        
+        // 尝试手动注册一个组件
+        this.testRegisterComponent();
+      },
+      methods: {
+        testRegisterComponent() {
+          console.log('尝试手动注册组件...');
+          
+          // 获取app实例
+          const app = this.$root;
+          
+          // 尝试手动注册测试组件
+          app._context.components['test-component'] = TestComponent;
+          
+          // 记录结果
+          setTimeout(() => {
+            this.debug.componentsAvailable = Object.keys(this.$options.components || {}).join(', ');
+            console.log('注册后的组件:', this.debug.componentsAvailable);
+          }, 100);
+        }
+      }
+    });
+    
+    // 尝试在这里手动添加组件
+    app.component('test-manual', {
+      template: '<div>手动添加的测试组件</div>'
+    });
+    
+    // 使用设计系统组件
+    console.log("开始使用DesignSystem");
+    app.use(DesignSystem);
+    console.log("使用DesignSystem后");
+    
+    // 挂载应用
+    app.mount('#app');
+  </script>
+</body>
+</html> 
