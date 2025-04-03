@@ -1,0 +1,130 @@
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './radius.css';
+@import './elevation.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-default);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  margin-bottom: var(--space-100);
+}
+
+h1 { font: var(--font-32-bold); }
+h2 { font: var(--font-24-semibold); }
+h3 { font: var(--font-20-semibold); }
+h4 { font: var(--font-16-semibold); }
+h5 { font: var(--font-14-semibold); }
+h6 { font: var(--font-12-semibold); }
+
+a {
+  color: var(--color-brand-default);
+  text-decoration: none;
+  transition: color 0.2s;
+  font: var(--font-14-medium);
+}
+
+a:hover {
+  color: var(--color-brand-hover);
+}
+
+p {
+  margin-bottom: var(--space-100);
+  color: var(--color-text-secondary);
+  font: var(--font-14-regular);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: var(--color-bg-surface);
+  padding: var(--space-50) var(--space-75);
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: var(--color-emphasize-default);
+}
+
+/* 通用页面布局 */
+.section-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-400) var(--space-200);
+}
+
+/* 页面描述样式 */
+.description {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-400);
+  font: var(--font-16-regular);
+}
+
+/* 章节容器样式 */
+.section {
+  margin-bottom: var(--space-500);
+  background-color: var(--color-bg-subtlest);
+  border-radius: 8px;
+  padding: var(--space-300);
+  /*border: 1px solid var(--color-stroke-divider);*/
+}
+
+/* 章节标题样式 */
+.section h2 {
+  font: var(--font-24-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-200);
+  padding-bottom: var(--space-200);
+  /*border-bottom: 1px solid var(--color-stroke-divider);*/
+}
+
+/* 章节描述样式 */
+.section-description {
+  color: var(--color-text-secondary);
+  font: var(--font-16-regular);
+  margin-bottom: var(--space-300);
+}
+
+/* 通用卡片样式 */
+.category-card {
+  margin-bottom: var(--space-300);
+  background-color: var(--color-bg-default);
+  padding: var(--space-300);
+  border-radius: 8px;
+  /*border: 1px solid var(--color-stroke-default);*/
+}
+
+/* 卡片标题样式 */
+.category-card h3 {
+  font: var(--font-20-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-200);
+  padding-bottom: var(--space-150);
+  /*border-bottom: 1px solid var(--color-stroke-divider);*/
+}
+
+/* 子类别标题样式 */
+.sub-category h4 {
+  font: var(--font-16-semibold);
+  margin-bottom: var(--space-200);
+  color: var(--color-text-tertiary);
+}
+
+/* 网格布局 */
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-150);
+} 

@@ -1,0 +1,22 @@
+{
+  "name": "designsystem",
+  "version": "1.0.0",
+  "description": "A comprehensive design system with foundation and components",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["design-system", "vue3", "components"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.1.6"
+  }
+}

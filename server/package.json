@@ -1,0 +1,26 @@
+{
+  "name": "design-system-cors-proxy",
+  "version": "1.0.0",
+  "description": "用于设计系统的CORS代理服务器",
+  "main": "cors-proxy.js",
+  "scripts": {
+    "start": "node cors-proxy.js",
+    "dev": "nodemon cors-proxy.js"
+  },
+  "keywords": [
+    "cors",
+    "proxy",
+    "design-system"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
