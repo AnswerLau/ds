@@ -4,34 +4,169 @@
   <meta charset="UTF-8">
   <title>设计系统测试</title>
   <link rel="stylesheet" href="dist/styles/design-system.css">
+  <!-- 添加一个控制台日志来验证CSS是否成功加载 -->
+  <script>
+    window.addEventListener('load', function() {
+      const styleSheets = document.styleSheets;
+      for (let i = 0; i < styleSheets.length; i++) {
+        try {
+          console.log('已加载样式表:', styleSheets[i].href);
+        } catch (e) {
+          console.log('无法读取样式表 #' + i);
+        }
+      }
+
+      // 检测组件是否成功注册
+      setTimeout(function() {
+        const elements = document.querySelectorAll('ds-button, ds-icon, ds-input, ds-checkbox, ds-toggle');
+        console.log('找到组件元素:', elements.length, '个');
+        
+        // 给所有找到的组件添加检测标记
+        elements.forEach(el => {
+          el.dataset.detected = 'true';
+          console.log('检测到组件:', el.tagName.toLowerCase());
+        });
+      }, 500);
+    });
+  </script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
     }
     .test-container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
-      border: 1px solid #eee;
+      border: 1px solid #ddd;
       border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .component-test {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
+      margin-bottom: 25px;
+      padding-bottom: 25px;
       border-bottom: 1px solid #eee;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+      text-align: center;
     }
     h2 {
       margin-top: 0;
+      color: #3a8ee6;
+      font-weight: 500;
+      font-size: 1.2rem;
     }
     .debug-panel {
-      margin-top: 20px;
+      margin-top: 30px;
       padding: 15px;
       background-color: #f8f9fa;
       border-radius: 4px;
       font-family: monospace;
       white-space: pre-wrap;
       font-size: 14px;
+      border: 1px solid #e9ecef;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .icon-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .icon-wrapper {
+      text-align: center;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f7fa;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .icon-wrapper span {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #606266;
+    }
+    .toggle-group {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    /* 自定义样式补充（确保控件有基本样式） */
+    .ds-button {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.3s;
+    }
+    .ds-button:hover {
+      opacity: 0.8;
+    }
+    .ds-button[type="primary"] {
+      background: #3a8ee6;
+      color: white;
+      border-color: #3a8ee6;
+    }
+    .ds-button[type="success"] {
+      background: #67c23a;
+      color: white;
+      border-color: #67c23a;
+    }
+    .ds-button[type="warning"] {
+      background: #e6a23c;
+      color: white;
+      border-color: #e6a23c;
+    }
+    .ds-icon {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+    }
+    .ds-input {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    /* 组件检测标记 */
+    [data-detected="true"] {
+      position: relative;
+    }
+    [data-detected="true"]::after {
+      content: '✓';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #67c23a;
+      color: white;
+      width: 16px;
+      height: 16px;
+      font-size: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
     }
   </style>
 </head>
@@ -41,23 +176,65 @@
     
     <div class="component-test">
       <h2>Button 按钮</h2>
-      <ds_button>默认按钮</ds_button>
-      <ds_button type="primary">主要按钮</ds_button>
-      <ds-button type="success">成功按钮</ds-button>
-      <ds-button type="warning">警告按钮</ds-button>
+      <div class="button-group">
+        <ds-button>默认按钮</ds-button>
+        <ds-button type="primary">主要按钮</ds-button>
+        <ds-button type="success">成功按钮</ds-button>
+        <ds-button type="warning">警告按钮</ds-button>
+      </div>
     </div>
     
     <div class="component-test">
       <h2>Icon 图标</h2>
-      <ds_icon name="home"></ds_icon>
-      <ds_icon name="settings"></ds_icon>
-      <ds-icon name="user"></ds-icon>
+      <div class="icon-group">
+        <div class="icon-wrapper">
+          <ds-icon name="home"></ds-icon>
+          <span>home</span>
+        </div>
+        <div class="icon-wrapper">
+          <ds-icon name="settings"></ds-icon>
+          <span>settings</span>
+        </div>
+        <div class="icon-wrapper">
+          <ds-icon name="user"></ds-icon>
+          <span>user</span>
+        </div>
+        <div class="icon-wrapper">
+          <ds-icon name="check"></ds-icon>
+          <span>check</span>
+        </div>
+        <div class="icon-wrapper">
+          <ds-icon name="star"></ds-icon>
+          <span>star</span>
+        </div>
+        <div class="icon-wrapper">
+          <ds-icon name="loading"></ds-icon>
+          <span>loading</span>
+        </div>
+      </div>
     </div>
     
     <div class="component-test">
       <h2>Input 输入框</h2>
-      <ds_input placeholder="请输入内容" v-model="inputValue"></ds_input>
+      <ds-input placeholder="请输入内容"></ds-input>
+      <div style="margin-top: 10px;"></div>
       <ds-input placeholder="带清除图标" clearable></ds-input>
+    </div>
+    
+    <div class="component-test">
+      <h2>Checkbox & Toggle</h2>
+      <ds-checkbox>选择项</ds-checkbox>
+      
+      <div class="toggle-group">
+        <span>开关:</span>
+        <ds-toggle></ds-toggle>
+      </div>
+    </div>
+    
+    <div class="component-test">
+      <h2>测试组件区域</h2>
+      <div>测试组件</div>
+      <div style="margin-top: 10px;">手动添加的测试组件</div>
     </div>
     
     <div class="debug-panel">
@@ -65,7 +242,7 @@
       <p>Vue版本: {{ debug.vueVersion }}</p>
       <p>DesignSystem对象键: {{ debug.dsKeys }}</p>
       <p>已注册组件: {{ debug.componentsAvailable }}</p>
-      <button @click="testRegisterComponent">测试注册组件</button>
+      <button @click="checkComponents">检查组件注册状态</button>
     </div>
   </div>
   
@@ -83,7 +260,6 @@
     const app = createApp({
       data() {
         return {
-          inputValue: '',
           debug: {
             vueVersion: Vue.version,
             dsKeys: '未加载',
@@ -98,34 +274,29 @@
         // 记录DesignSystem的键
         this.debug.dsKeys = Object.keys(DesignSystem).join(', ');
         
-        // 记录已注册的组件
-        this.debug.componentsAvailable = Object.keys(this.$options.components || {}).join(', ');
+        // 由于Vue 3的安全机制，不直接操作组件
+        this.debug.componentsAvailable = '无法直接列出已注册组件';
         
-        // 尝试手动注册一个组件
-        this.testRegisterComponent();
+        // 检查组件加载
+        this.checkComponents();
       },
       methods: {
-        testRegisterComponent() {
-          console.log('尝试手动注册组件...');
+        checkComponents() {
+          console.log('检查组件状态...');
           
-          // 获取app实例
-          const app = this.$root;
+          // 查找DOM中的组件
+          const componentTypes = ['ds-button', 'ds-icon', 'ds-input', 'ds-checkbox', 'ds-toggle'];
+          const results = componentTypes.map(type => {
+            const elements = document.querySelectorAll(type);
+            return `${type}: ${elements.length}个`;
+          });
           
-          // 尝试手动注册测试组件
-          app._context.components['test-component'] = TestComponent;
+          console.log('组件状态:', results.join(', '));
           
-          // 记录结果
-          setTimeout(() => {
-            this.debug.componentsAvailable = Object.keys(this.$options.components || {}).join(', ');
-            console.log('注册后的组件:', this.debug.componentsAvailable);
-          }, 100);
+          // 更新调试信息
+          this.debug.componentsAvailable = results.join('<br>');
         }
       }
-    });
-    
-    // 尝试在这里手动添加组件
-    app.component('test-manual', {
-      template: '<div>手动添加的测试组件</div>'
     });
     
     // 使用设计系统组件

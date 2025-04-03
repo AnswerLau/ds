@@ -41,29 +41,35 @@ const toKebabCase = str => str.replace(/([A-Z])/g, '-$1').toLowerCase().replace(
 const install = (app) => {
   // 记录安装开始
   console.log('Installing Design System components...');
+  console.log('可用组件:', components.map(c => c.name).join(', '));
+  
+  try {
+    // 全局注册测试方法
+    window.__DS_TEST__ = {
+      components: components.map(c => c.name),
+      checkRegistered: (name) => {
+        try {
+          return !!app._context.components[name];
+        } catch (e) {
+          return false;
+        }
+      }
+    };
+    console.log('已注册测试助手 window.__DS_TEST__');
+  } catch (e) {
+    console.warn('无法注册测试助手', e);
+  }
   
   // 遍历注册全局组件
   components.forEach(component => {
     const name = component.name; // 直接使用组件的name属性
     if (name) {
       try {
-        // 以原始名称注册
-        app.component(name, component);
-        console.log(`Registered component with original name: ${name}`);
-        
-        // 以kebab-case名称注册 (ds_Button -> ds-button)
+        // 只以kebab-case名称注册 (ds_Button -> ds-button)
         const kebabName = name.replace(/_/g, '-').toLowerCase();
-        if (kebabName !== name) {
-          app.component(kebabName, component);
-          console.log(`Registered component with kebab-case name: ${kebabName}`);
-        }
-        
-        // 以camelCase名称注册 (ds_Button -> dsButton)
-        const camelName = name.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
-        if (camelName !== name) {
-          app.component(camelName, component);
-          console.log(`Registered component with camelCase name: ${camelName}`);
-        }
+        console.log(`正在注册组件 ${name} 为 ${kebabName}`);
+        app.component(kebabName, component);
+        console.log(`组件注册成功: ${kebabName}`);
       } catch (error) {
         console.error(`Failed to register component ${name}:`, error);
       }
@@ -103,8 +109,9 @@ if (typeof window !== 'undefined' && window.Vue) {
   } else {
     // Vue 3
     if (typeof window.Vue.createApp === 'function') {
-      const app = window.Vue.createApp({});
-      install(app);
+      console.log('检测到Vue 3，通过createApp安装');
+      const tempApp = window.Vue.createApp({});
+      install(tempApp);
       console.log('Applied to Vue 3 app via install function');
     } else {
       console.warn('window.Vue.createApp is not a function, cannot auto-install');
