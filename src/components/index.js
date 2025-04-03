@@ -13,8 +13,77 @@ import Slider from './ds_Slider.vue';
 import Message from './ds_Message.vue';
 import message from './message';
 
-// 组件映射表
-const componentMap = {
+// 组件列表
+const components = [
+  Button,
+  Icon,
+  Input,
+  Checkbox,
+  Radio, 
+  Toggle,
+  Alert,
+  Tooltip,
+  Select,
+  Dropdown,
+  Tab,
+  Slider,
+  Message
+];
+
+// 安装方法
+const install = function(app) {
+  // 判断是否已安装
+  if (install.installed) return;
+  
+  console.log('Installing Design System components...');
+  
+  // 注册所有组件
+  components.forEach(component => {
+    const name = component.name;
+    if (name) {
+      // 以kebab-case方式注册组件 (ds_Button -> ds-button)
+      const kebabName = name.replace(/_/g, '-').toLowerCase();
+      console.log(`注册组件: ${kebabName}`);
+      app.component(kebabName, component);
+    }
+  });
+  
+  // 添加实例方法
+  if (app.config && app.config.globalProperties) {
+    // Vue 3方式
+    app.config.globalProperties.$message = message;
+  } else if (app.prototype) {
+    // Vue 2方式
+    app.prototype.$message = message;
+  }
+  
+  install.installed = true;
+  console.log('Design System installation complete');
+};
+
+// 自动安装
+if (typeof window !== 'undefined' && window.Vue) {
+  const Vue = window.Vue;
+  
+  // 检测Vue版本
+  if (Vue.version && Vue.version.startsWith('2.')) {
+    // Vue 2
+    if (typeof Vue.use === 'function') {
+      Vue.use({ install });
+    }
+  } else {
+    // Vue 3
+    if (typeof Vue.createApp === 'function') {
+      const app = Vue.createApp({});
+      app.use({ install });
+    }
+  }
+}
+
+// 创建组件库对象
+const DesignSystem = {
+  version: '1.0.0',
+  install,
   Button,
   Icon,
   Input,
@@ -30,115 +99,10 @@ const componentMap = {
   Message
 };
 
-// 所有组件列表
-const components = Object.values(componentMap);
+// 添加组件实例方法
+DesignSystem.message = message;
 
-// 转换组件名称为kebab-case
-const toCamelCase = str => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-const toKebabCase = str => str.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
-
-// 定义安装方法
-const install = (app) => {
-  // 记录安装开始
-  console.log('Installing Design System components...');
-  console.log('可用组件:', components.map(c => c.name).join(', '));
-  
-  try {
-    // 全局注册测试方法
-    window.__DS_TEST__ = {
-      components: components.map(c => c.name),
-      checkRegistered: (name) => {
-        try {
-          return !!app._context.components[name];
-        } catch (e) {
-          return false;
-        }
-      }
-    };
-    console.log('已注册测试助手 window.__DS_TEST__');
-  } catch (e) {
-    console.warn('无法注册测试助手', e);
-  }
-  
-  // 遍历注册全局组件
-  components.forEach(component => {
-    const name = component.name; // 直接使用组件的name属性
-    if (name) {
-      try {
-        // 只以kebab-case名称注册 (ds_Button -> ds-button)
-        const kebabName = name.replace(/_/g, '-').toLowerCase();
-        console.log(`正在注册组件 ${name} 为 ${kebabName}`);
-        app.component(kebabName, component);
-        console.log(`组件注册成功: ${kebabName}`);
-      } catch (error) {
-        console.error(`Failed to register component ${name}:`, error);
-      }
-    } else {
-      console.warn('Component without name property:', component);
-    }
-  });
-  
-  // 添加实例方法 (Vue 3 方式)
-  if (app.config && app.config.globalProperties) {
-    app.config.globalProperties.$message = message;
-    console.log('Added $message to globalProperties');
-  } else {
-    console.warn('Unable to add $message - globalProperties not available');
-  }
-
-  // 记录安装完成
-  console.log('Design System installation complete');
-  
-  return app;
-};
-
-// 支持CDN的自动安装 (兼容Vue 2和Vue 3)
-if (typeof window !== 'undefined' && window.Vue) {
-  console.log('Auto-installing for global Vue:', window.Vue.version);
-  
-  const Vue = window.Vue;
-  // 判断是Vue 2还是Vue 3
-  if (Vue.version && Vue.version.startsWith('2.')) {
-    // Vue 2
-    if (typeof window.Vue.use === 'function') {
-      window.Vue.use({ install });
-      console.log('Installed for Vue 2 via window.Vue.use');
-    } else {
-      console.warn('window.Vue.use is not a function, cannot auto-install');
-    }
-  } else {
-    // Vue 3
-    if (typeof window.Vue.createApp === 'function') {
-      console.log('检测到Vue 3，通过createApp安装');
-      const tempApp = window.Vue.createApp({});
-      install(tempApp);
-      console.log('Applied to Vue 3 app via install function');
-    } else {
-      console.warn('window.Vue.createApp is not a function, cannot auto-install');
-    }
-  }
-}
-
-// 创建包含所有组件的默认导出对象
-const DesignSystem = {
-  install,
-  Button,
-  Icon,
-  Input,
-  Checkbox,
-  Radio,
-  Toggle,
-  Alert,
-  Tooltip,
-  Select,
-  Dropdown,
-  Tab,
-  Slider,
-  Message,
-  message
-};
-
-// 导出各个组件
+// 导出
 export {
   Button,
   Icon,
@@ -153,8 +117,8 @@ export {
   Tab,
   Slider,
   Message,
-  message
+  message,
+  install
 };
 
-// 导出默认对象
 export default DesignSystem; 

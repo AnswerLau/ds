@@ -18,17 +18,20 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
       name: 'DesignSystem',
-      fileName: (format) => format === 'umd' ? `design-system.min.js` : `design-system.${format}.js`,
+      fileName: (format) => {
+        if (format === 'es') return 'design-system.esm.js';
+        if (format === 'umd') return 'design-system.js';
+        return `design-system.${format}.js`;
+      },
+      formats: ['es', 'umd']
     },
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
       external: ['vue'],
       output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'Vue'
         },
-        exports: 'named', // 显式指定导出模式为named
+        exports: 'named',
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith('.css')) {
             return 'styles/design-system.css';
@@ -37,6 +40,12 @@ export default defineConfig({
         }
       }
     },
-    minify: 'terser' // 使用terser进行最小化
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        drop_debugger: true
+      }
+    }
   }
 }) 

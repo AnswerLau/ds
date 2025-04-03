@@ -2259,7 +2259,56 @@ messageAPI.closeAll = () => {
   instances.length = 0;
   console.log("All messages have been closed");
 };
-const componentMap = {
+const components = [
+  Button,
+  Icon,
+  Input,
+  Checkbox,
+  Radio,
+  Toggle,
+  Alert,
+  Tooltip,
+  Select,
+  Dropdown,
+  Tab,
+  Slider,
+  Message
+];
+const install = function(app) {
+  if (install.installed) return;
+  console.log("Installing Design System components...");
+  components.forEach((component) => {
+    const name = component.name;
+    if (name) {
+      const kebabName = name.replace(/_/g, "-").toLowerCase();
+      console.log(`注册组件: ${kebabName}`);
+      app.component(kebabName, component);
+    }
+  });
+  if (app.config && app.config.globalProperties) {
+    app.config.globalProperties.$message = messageAPI;
+  } else if (app.prototype) {
+    app.prototype.$message = messageAPI;
+  }
+  install.installed = true;
+  console.log("Design System installation complete");
+};
+if (typeof window !== "undefined" && window.Vue) {
+  const Vue = window.Vue;
+  if (Vue.version && Vue.version.startsWith("2.")) {
+    if (typeof Vue.use === "function") {
+      Vue.use({ install });
+    }
+  } else {
+    if (typeof Vue.createApp === "function") {
+      const app = Vue.createApp({});
+      app.use({ install });
+    }
+  }
+}
+const DesignSystem = {
+  version: "1.0.0",
+  install,
   Button,
   Icon,
   Input,
@@ -2274,87 +2323,7 @@ const componentMap = {
   Slider,
   Message
 };
-const components = Object.values(componentMap);
-const install = (app) => {
-  console.log("Installing Design System components...");
-  console.log("可用组件:", components.map((c) => c.name).join(", "));
-  try {
-    window.__DS_TEST__ = {
-      components: components.map((c) => c.name),
-      checkRegistered: (name) => {
-        try {
-          return !!app._context.components[name];
-        } catch (e) {
-          return false;
-        }
-      }
-    };
-    console.log("已注册测试助手 window.__DS_TEST__");
-  } catch (e) {
-    console.warn("无法注册测试助手", e);
-  }
-  components.forEach((component) => {
-    const name = component.name;
-    if (name) {
-      try {
-        const kebabName = name.replace(/_/g, "-").toLowerCase();
-        console.log(`正在注册组件 ${name} 为 ${kebabName}`);
-        app.component(kebabName, component);
-        console.log(`组件注册成功: ${kebabName}`);
-      } catch (error) {
-        console.error(`Failed to register component ${name}:`, error);
-      }
-    } else {
-      console.warn("Component without name property:", component);
-    }
-  });
-  if (app.config && app.config.globalProperties) {
-    app.config.globalProperties.$message = messageAPI;
-    console.log("Added $message to globalProperties");
-  } else {
-    console.warn("Unable to add $message - globalProperties not available");
-  }
-  console.log("Design System installation complete");
-  return app;
-};
-if (typeof window !== "undefined" && window.Vue) {
-  console.log("Auto-installing for global Vue:", window.Vue.version);
-  const Vue = window.Vue;
-  if (Vue.version && Vue.version.startsWith("2.")) {
-    if (typeof window.Vue.use === "function") {
-      window.Vue.use({ install });
-      console.log("Installed for Vue 2 via window.Vue.use");
-    } else {
-      console.warn("window.Vue.use is not a function, cannot auto-install");
-    }
-  } else {
-    if (typeof window.Vue.createApp === "function") {
-      console.log("检测到Vue 3，通过createApp安装");
-      const tempApp = window.Vue.createApp({});
-      install(tempApp);
-      console.log("Applied to Vue 3 app via install function");
-    } else {
-      console.warn("window.Vue.createApp is not a function, cannot auto-install");
-    }
-  }
-}
-const DesignSystem = {
-  install,
-  Button,
-  Icon,
-  Input,
-  Checkbox,
-  Radio,
-  Toggle,
-  Alert,
-  Tooltip,
-  Select,
-  Dropdown,
-  Tab,
-  Slider,
-  Message,
-  message: messageAPI
-};
+DesignSystem.message = messageAPI;
 export {
   Alert,
   Button,
@@ -2370,5 +2339,6 @@ export {
   Toggle,
   Tooltip,
   DesignSystem as default,
+  install,
   messageAPI as message
 };

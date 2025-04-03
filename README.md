@@ -40,7 +40,7 @@ npm install @answerlau/design-system
 <!-- 引入样式 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/styles/design-system.css">
 <!-- 引入组件库 -->
-<script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.js"></script>
 ```
 
 ## 使用方法
@@ -74,10 +74,9 @@ export default {
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.js"></script>
     <script>
-        const { createApp } = Vue;
-        const app = createApp({});
+        const app = Vue.createApp({});
         app.use(DesignSystem);
         app.mount('#app');
     </script>

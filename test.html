@@ -15,21 +15,96 @@
           console.log('无法读取样式表 #' + i);
         }
       }
-
-      // 检测组件是否成功注册
-      setTimeout(function() {
-        const elements = document.querySelectorAll('ds-button, ds-icon, ds-input, ds-checkbox, ds-toggle');
-        console.log('找到组件元素:', elements.length, '个');
-        
-        // 给所有找到的组件添加检测标记
-        elements.forEach(el => {
-          el.dataset.detected = 'true';
-          console.log('检测到组件:', el.tagName.toLowerCase());
-        });
-      }, 500);
     });
   </script>
   <style>
+    :root {
+      /* 颜色变量 */
+      --color-brand-default: #3a8ee6;
+      --color-brand-hover: #66b1ff;
+      --color-brand-active: #1c7de0;
+      --color-brand-subtlest: #e6f1fc;
+      --color-brand-primary: #3a8ee6;
+      
+      --color-text-primary: #303133;
+      --color-text-secondary: #606266;
+      --color-text-tertiary: #909399;
+      --color-text-disabled: #c0c4cc;
+      --color-text-inverse: #ffffff;
+      
+      --color-bg-default: #ffffff;
+      --color-bg-surface: #f5f7fa;
+      --color-bg-hover: #f5f7fa;
+      --color-bg-active: #e9ecf2;
+      --color-bg-subtlest: #f0f2f5;
+      
+      --color-stroke-default: #dcdfe6;
+      --color-stroke-divider: #e4e7ed;
+      --color-stroke-disabled: #ebeef5;
+      
+      --color-emphasize-default: #f56c6c;
+      --color-emphasize-hover: #f78989;
+      --color-emphasize-active: #e05454;
+      
+      --color-blue-default: #3a8ee6;
+      --color-blue-hover: #66b1ff;
+      --color-blue-active: #1c7de0;
+      --color-blue-subtlest: #e6f1fc;
+      
+      --color-green-default: #67c23a;
+      --color-green-hover: #85ce61;
+      --color-green-active: #529b2e;
+      --color-green-subtlest: #e1f3d8;
+      
+      --color-red-default: #f56c6c;
+      --color-red-hover: #f78989;
+      --color-red-active: #e05454;
+      --color-red-subtlest: #fde2e2;
+      
+      --color-warning-default: #e6a23c;
+      --color-warning-hover: #ebb563;
+      --color-warning-active: #c88224;
+      --color-warning-subtlest: #faecd8;
+      
+      --neutral-300: #e0e0e0;
+      --neutral-600: #909399;
+      
+      --blue-alpha-100: rgba(58, 142, 230, 0.1);
+      --red-alpha-100: rgba(245, 108, 108, 0.1);
+      
+      /* 字体变量 */
+      --font-12-regular: 400 12px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-12-medium: 500 12px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-14-regular: 400 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-14-medium: 500 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-16-regular: 400 16px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-16-medium: 500 16px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      
+      /* 尺寸变量 */
+      --space-50: 4px;
+      --space-75: 6px;
+      --space-100: 8px;
+      --space-150: 12px;
+      --space-200: 16px;
+      --space-300: 24px;
+      --space-400: 32px;
+      
+      /* 圆角变量 */
+      --radius-small: 2px;
+      --radius-medium: 4px;
+      --radius-large: 8px;
+      --radius-circle: 50%;
+      --radius-xxxlarge: 999px;
+      
+      /* 阴影变量 */
+      --elevation-shadow-light-100: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --elevation-shadow-light-200: 0 4px 8px rgba(0, 0, 0, 0.1);
+      
+      /* 图标过滤器 */
+      --brand-color-filter: invert(45%) sepia(35%) saturate(1352%) hue-rotate(191deg) brightness(98%) contrast(98%);
+      --blue-color-filter: invert(50%) sepia(86%) saturate(2262%) hue-rotate(192deg) brightness(99%) contrast(92%);
+    }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       padding: 20px;
@@ -239,70 +314,48 @@
     
     <div class="debug-panel">
       <h3>调试信息</h3>
-      <p>Vue版本: {{ debug.vueVersion }}</p>
-      <p>DesignSystem对象键: {{ debug.dsKeys }}</p>
-      <p>已注册组件: {{ debug.componentsAvailable }}</p>
-      <button @click="checkComponents">检查组件注册状态</button>
+      <p>Vue版本: {{ vueVersion }}</p>
+      <p>设计系统版本: {{ dsVersion }}</p>
+      <p>已加载组件: {{ loadedComponents }}</p>
+      <button @click="checkComponents">检查组件状态</button>
     </div>
   </div>
   
+  <!-- 先引入Vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.js"></script>
-  <script src="dist/design-system.min.js"></script>
+  <!-- 再引入设计系统 -->
+  <script src="dist/design-system.js"></script>
   <script>
-    const { createApp, defineComponent } = Vue;
-    
-    // 创建一个测试组件
-    const TestComponent = defineComponent({
-      template: '<div>测试组件</div>',
-      name: 'TestComponent'
-    });
-    
-    const app = createApp({
+    // 创建Vue应用
+    const app = Vue.createApp({
       data() {
         return {
-          debug: {
-            vueVersion: Vue.version,
-            dsKeys: '未加载',
-            componentsAvailable: '未加载'
-          }
+          vueVersion: Vue.version,
+          dsVersion: DesignSystem.version || '未知',
+          loadedComponents: '检测中...'
         }
       },
       mounted() {
-        console.log('Vue app mounted');
-        console.log('DesignSystem:', DesignSystem);
-        
-        // 记录DesignSystem的键
-        this.debug.dsKeys = Object.keys(DesignSystem).join(', ');
-        
-        // 由于Vue 3的安全机制，不直接操作组件
-        this.debug.componentsAvailable = '无法直接列出已注册组件';
-        
-        // 检查组件加载
+        console.log('Vue应用已挂载');
+        console.log('设计系统对象:', DesignSystem);
         this.checkComponents();
       },
       methods: {
         checkComponents() {
-          console.log('检查组件状态...');
-          
-          // 查找DOM中的组件
           const componentTypes = ['ds-button', 'ds-icon', 'ds-input', 'ds-checkbox', 'ds-toggle'];
           const results = componentTypes.map(type => {
             const elements = document.querySelectorAll(type);
             return `${type}: ${elements.length}个`;
           });
           
-          console.log('组件状态:', results.join(', '));
-          
-          // 更新调试信息
-          this.debug.componentsAvailable = results.join('<br>');
+          console.log('组件状态:', results);
+          this.loadedComponents = results.join(', ');
         }
       }
     });
     
-    // 使用设计系统组件
-    console.log("开始使用DesignSystem");
+    // 使用设计系统
     app.use(DesignSystem);
-    console.log("使用DesignSystem后");
     
     // 挂载应用
     app.mount('#app');
