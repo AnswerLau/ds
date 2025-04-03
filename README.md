@@ -73,12 +73,13 @@ export default {
         <ds-input placeholder="请输入内容"></ds-input>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.min.js"></script>
     <script>
-        new Vue({
-            el: '#app'
-        });
+        const { createApp } = Vue;
+        const app = createApp({});
+        app.use(DesignSystem);
+        app.mount('#app');
     </script>
 </body>
 </html>
