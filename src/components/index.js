@@ -102,6 +102,11 @@ const DesignSystem = {
 // 添加组件实例方法
 DesignSystem.message = message;
 
+// 关键修改: 为浏览器环境提供全局对象
+if (typeof window !== 'undefined') {
+  window.DesignSystem = DesignSystem;
+}
+
 // 导出
 export {
   Button,

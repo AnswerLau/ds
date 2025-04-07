@@ -2324,6 +2324,9 @@ const DesignSystem = {
   Message
 };
 DesignSystem.message = messageAPI;
+if (typeof window !== "undefined") {
+  window.DesignSystem = DesignSystem;
+}
 export {
   Alert,
   Button,

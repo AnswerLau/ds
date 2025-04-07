@@ -1,0 +1,31 @@
+# Source files
+src/
+examples/
+test/
+tests/
+docs/
+
+# Config files
+.babelrc
+.editorconfig
+.eslintrc.json
+.prettierrc
+.gitignore
+.npmignore
+.travis.yml
+.github/
+vite.config.js
+jest.config.js
+
+# Development files
+*.log
+.DS_Store
+.idea/
+.vscode/
+coverage/
+node_modules/
+
+# Build files
+build/
+dist/test/
+*.map

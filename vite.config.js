@@ -32,6 +32,8 @@ export default defineConfig({
           vue: 'Vue'
         },
         exports: 'named',
+        name: 'DesignSystem',
+        extend: true,
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith('.css')) {
             return 'styles/design-system.css';

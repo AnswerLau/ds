@@ -1,22 +1,50 @@
 {
-  "name": "designsystem",
+  "name": "@answerlau/design-system",
   "version": "1.0.0",
-  "description": "A comprehensive design system with foundation and components",
-  "main": "index.js",
+  "description": "A high quality UI Toolkit built on Vue.js 3.0",
+  "main": "dist/design-system.js",
+  "module": "dist/design-system.esm.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue src",
+    "lint:fix": "eslint --ext .js,.vue src --fix"
   },
-  "keywords": ["design-system", "vue3", "components"],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnswerLau/ds.git"
+  },
+  "keywords": [
+    "design-system",
+    "vue3",
+    "components",
+    "ui",
+    "framework"
+  ],
+  "author": "AnswerLau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AnswerLau/ds/issues"
+  },
+  "homepage": "https://github.com/AnswerLau/ds#readme",
   "dependencies": {
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue": "^3.4.21"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "eslint": "^8.55.0",
+    "eslint-plugin-vue": "^9.19.2",
+    "terser": "^5.39.0", 
     "vite": "^5.1.6"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   }
 }

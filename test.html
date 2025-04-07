@@ -4,19 +4,6 @@
   <meta charset="UTF-8">
   <title>设计系统测试</title>
   <link rel="stylesheet" href="dist/styles/design-system.css">
-  <!-- 添加一个控制台日志来验证CSS是否成功加载 -->
-  <script>
-    window.addEventListener('load', function() {
-      const styleSheets = document.styleSheets;
-      for (let i = 0; i < styleSheets.length; i++) {
-        try {
-          console.log('已加载样式表:', styleSheets[i].href);
-        } catch (e) {
-          console.log('无法读取样式表 #' + i);
-        }
-      }
-    });
-  </script>
   <style>
     :root {
       /* 颜色变量 */
@@ -222,27 +209,6 @@
       width: 100%;
       max-width: 300px;
     }
-    
-    /* 组件检测标记 */
-    [data-detected="true"] {
-      position: relative;
-    }
-    [data-detected="true"]::after {
-      content: '✓';
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #67c23a;
-      color: white;
-      width: 16px;
-      height: 16px;
-      font-size: 12px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-    }
   </style>
 </head>
 <body>
@@ -306,18 +272,10 @@
       </div>
     </div>
     
-    <div class="component-test">
-      <h2>测试组件区域</h2>
-      <div>测试组件</div>
-      <div style="margin-top: 10px;">手动添加的测试组件</div>
-    </div>
-    
     <div class="debug-panel">
       <h3>调试信息</h3>
-      <p>Vue版本: {{ vueVersion }}</p>
-      <p>设计系统版本: {{ dsVersion }}</p>
-      <p>已加载组件: {{ loadedComponents }}</p>
-      <button @click="checkComponents">检查组件状态</button>
+      <div id="debug"></div>
+      <button onclick="checkComponents()">检查组件状态</button>
     </div>
   </div>
   
@@ -326,39 +284,75 @@
   <!-- 再引入设计系统 -->
   <script src="dist/design-system.js"></script>
   <script>
-    // 创建Vue应用
-    const app = Vue.createApp({
-      data() {
-        return {
-          vueVersion: Vue.version,
-          dsVersion: DesignSystem.version || '未知',
-          loadedComponents: '检测中...'
-        }
-      },
-      mounted() {
-        console.log('Vue应用已挂载');
-        console.log('设计系统对象:', DesignSystem);
-        this.checkComponents();
-      },
-      methods: {
-        checkComponents() {
-          const componentTypes = ['ds-button', 'ds-icon', 'ds-input', 'ds-checkbox', 'ds-toggle'];
-          const results = componentTypes.map(type => {
-            const elements = document.querySelectorAll(type);
-            return `${type}: ${elements.length}个`;
-          });
-          
-          console.log('组件状态:', results);
-          this.loadedComponents = results.join(', ');
-        }
-      }
-    });
+    // 关键修改: 为浏览器环境提供全局对象
+    if (typeof window !== 'undefined') {
+      window.DesignSystem = DesignSystem;
+    }
     
-    // 使用设计系统
-    app.use(DesignSystem);
+    // 声明调试信息对象
+    window.debugInfo = {
+      vueVersion: Vue.version,
+      dsVersion: '未知',
+      components: '未加载'
+    };
+    
+    // 创建Vue应用
+    const app = Vue.createApp({});
+    
+    // 检查 DesignSystem 是否存在再使用
+    if (typeof window.DesignSystem !== 'undefined') {
+      console.log('DesignSystem found:', window.DesignSystem);
+      // 更新调试信息
+      debugInfo.dsVersion = window.DesignSystem.version || '未知版本';
+      debugInfo.components = '已加载';
+      // 使用设计系统
+      app.use(window.DesignSystem);
+    } else {
+      console.error('DesignSystem not found!');
+      debugInfo.components = '未加载';
+    }
     
     // 挂载应用
     app.mount('#app');
+    
+    // 检查组件状态
+    function checkComponents() {
+      const componentTypes = ['ds-button', 'ds-icon', 'ds-input', 'ds-checkbox', 'ds-toggle'];
+      const results = componentTypes.map(type => {
+        const elements = document.querySelectorAll(type);
+        return `${type}: ${elements.length}个`;
+      });
+      
+      console.log('组件状态:', results);
+      
+      const debug = document.getElementById('debug');
+      debug.innerHTML = `
+        <p>Vue版本: ${debugInfo.vueVersion}</p>
+        <p>设计系统版本: ${debugInfo.dsVersion}</p>
+        <p>组件状态: ${results.join(', ')}</p>
+        <p>Window.DesignSystem: ${typeof window.DesignSystem}</p>
+      `;
+    }
+    
+    // 页面加载完成后执行
+    window.addEventListener('load', () => {
+      // 确保debugInfo存在再使用
+      if (window.debugInfo) {
+        checkComponents();
+        console.log('Window.DesignSystem:', window.DesignSystem);
+      }
+      
+      // 检查样式表
+      const styleSheets = document.styleSheets;
+      console.log('样式表数量:', styleSheets.length);
+      for (let i = 0; i < styleSheets.length; i++) {
+        try {
+          console.log('样式表', i, styleSheets[i].href);
+        } catch (e) {
+          console.log('样式表', i, '无法读取');
+        }
+      }
+    });
   </script>
 </body>
-</html> 
+</html>

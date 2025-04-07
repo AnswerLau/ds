@@ -3,167 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设计系统 CDN 示例</title>
+    <title>设计系统 - CDN使用示例</title>
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/styles/design-system.css">
+    <link rel="stylesheet" href="../dist/styles/design-system.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            color: #333;
             margin: 0;
             padding: 20px;
-            background-color: #f5f7fa;
+            background-color: #f8f8f8;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            color: #303133;
-            margin-bottom: 30px;
+        .header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #17233d;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #515a6e;
+            margin: 10px 0 0;
         }
         .section {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #ebeef5;
+            border-bottom: 1px dashed #e8eaec;
         }
         .section-title {
             font-size: 18px;
-            color: #606266;
-            margin-bottom: 15px;
+            color: #17233d;
+            margin-bottom: 16px;
+            font-weight: 500;
         }
         .component-row {
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
+            align-items: center;
             margin-bottom: 16px;
+        }
+        .code-block {
+            background-color: #f7f7f7;
+            border-radius: 4px;
+            padding: 16px;
+            margin-top: 16px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 14px;
+            color: #515a6e;
+            line-height: 1.5;
+        }
+        .demo-card {
+            border: 1px solid #dcdee2;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        .demo-card-title {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e8eaec;
+            background-color: #f8f8f9;
+            font-size: 14px;
+            color: #17233d;
+            font-weight: 500;
+        }
+        .demo-card-content {
+            padding: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>设计系统组件 CDN 示例</h1>
-        
+        <div class="header">
+            <h1 class="title">设计系统 - CDN使用示例</h1>
+            <p class="subtitle">通过CDN引入使用Vue组件库，快速构建界面</p>
+        </div>
+
         <div id="app">
             <!-- 按钮组件 -->
             <div class="section">
                 <h2 class="section-title">Button 按钮</h2>
-                <div class="component-row">
-                    <ds-button>默认按钮</ds-button>
-                    <ds-button type="primary">主要按钮</ds-button>
-                    <ds-button type="success">成功按钮</ds-button>
-                    <ds-button type="warning">警告按钮</ds-button>
-                    <ds-button type="danger">危险按钮</ds-button>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <div class="component-row">
+                            <ds-button>默认按钮</ds-button>
+                            <ds-button type="primary">主要按钮</ds-button>
+                            <ds-button type="secondary">次要按钮</ds-button>
+                            <ds-button type="text">文本按钮</ds-button>
+                            <ds-button type="emphasize">强调按钮</ds-button>
+                        </div>
+                        <div class="component-row">
+                            <ds-button icon-left="home">带图标按钮</ds-button>
+                            <ds-button icon-left="check" type="primary">成功操作</ds-button>
+                            <ds-button icon-only icon-left="settings"></ds-button>
+                            <ds-button disabled>禁用按钮</ds-button>
+                            <ds-button loading>加载中</ds-button>
+                        </div>
+                    </div>
                 </div>
-                <div class="component-row">
-                    <ds-button size="small">小型按钮</ds-button>
-                    <ds-button>默认大小</ds-button>
-                    <ds-button size="large">大型按钮</ds-button>
+                <div class="code-block">
+                    <pre>
+&lt;ds-button&gt;默认按钮&lt;/ds-button&gt;
+&lt;ds-button type="primary"&gt;主要按钮&lt;/ds-button&gt;
+&lt;ds-button type="secondary"&gt;次要按钮&lt;/ds-button&gt;
+&lt;ds-button icon-left="home"&gt;带图标按钮&lt;/ds-button&gt;
+&lt;ds-button disabled&gt;禁用按钮&lt;/ds-button&gt;
+                    </pre>
                 </div>
             </div>
-            
-            <!-- 输入框组件 -->
-            <div class="section">
-                <h2 class="section-title">Input 输入框</h2>
-                <div class="component-row">
-                    <ds-input placeholder="请输入内容" v-model="inputValue"></ds-input>
-                    <ds-input type="password" placeholder="请输入密码" show-password></ds-input>
-                </div>
-                <div class="component-row">
-                    <ds-input placeholder="带清除图标" clearable></ds-input>
-                    <ds-input placeholder="禁用状态" disabled></ds-input>
-                </div>
-                <p v-if="inputValue">当前输入: {{ inputValue }}</p>
-            </div>
-            
+
             <!-- 图标组件 -->
             <div class="section">
                 <h2 class="section-title">Icon 图标</h2>
-                <div class="component-row">
-                    <ds-icon name="home"></ds-icon>
-                    <ds-icon name="user"></ds-icon>
-                    <ds-icon name="settings"></ds-icon>
-                    <ds-icon name="check"></ds-icon>
-                    <ds-icon name="close"></ds-icon>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础图标</div>
+                    <div class="demo-card-content">
+                        <div class="component-row">
+                            <ds-icon name="home"></ds-icon>
+                            <ds-icon name="user"></ds-icon>
+                            <ds-icon name="settings"></ds-icon>
+                            <ds-icon name="check"></ds-icon>
+                            <ds-icon name="close"></ds-icon>
+                            <ds-icon name="loading"></ds-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+&lt;ds-icon name="home"&gt;&lt;/ds-icon&gt;
+&lt;ds-icon name="user"&gt;&lt;/ds-icon&gt;
+&lt;ds-icon name="settings"&gt;&lt;/ds-icon&gt;
+                    </pre>
                 </div>
             </div>
             
             <!-- 复选框组件 -->
             <div class="section">
                 <h2 class="section-title">Checkbox 复选框</h2>
-                <ds-checkbox v-model="checked1">选项1</ds-checkbox>
-                <ds-checkbox v-model="checked2">选项2</ds-checkbox>
-                <p>选中状态: 选项1 - {{ checked1 }}, 选项2 - {{ checked2 }}</p>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <ds-checkbox v-model="checked1">选项1</ds-checkbox>
+                        <ds-checkbox v-model="checked2">选项2</ds-checkbox>
+                        <p>选中状态: 选项1 - {{ checked1 ? '是' : '否' }}, 选项2 - {{ checked2 ? '是' : '否' }}</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+&lt;ds-checkbox v-model="checked1"&gt;选项1&lt;/ds-checkbox&gt;
+&lt;ds-checkbox v-model="checked2"&gt;选项2&lt;/ds-checkbox&gt;
+                    </pre>
+                </div>
             </div>
             
             <!-- 单选框组件 -->
             <div class="section">
                 <h2 class="section-title">Radio 单选框</h2>
-                <ds-radio v-model="radio" value="1">选项1</ds-radio>
-                <ds-radio v-model="radio" value="2">选项2</ds-radio>
-                <p>当前选中: {{ radio }}</p>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <ds-radio v-model="radio" label="1">选项1</ds-radio>
+                        <ds-radio v-model="radio" label="2">选项2</ds-radio>
+                        <p>当前选中: {{ radio }}</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+&lt;ds-radio v-model="radio" label="1"&gt;选项1&lt;/ds-radio&gt;
+&lt;ds-radio v-model="radio" label="2"&gt;选项2&lt;/ds-radio&gt;
+                    </pre>
+                </div>
             </div>
             
             <!-- 切换开关组件 -->
             <div class="section">
                 <h2 class="section-title">Toggle 开关</h2>
-                <ds-toggle v-model="toggleValue"></ds-toggle>
-                <p>开关状态: {{ toggleValue ? '开启' : '关闭' }}</p>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <ds-toggle v-model="toggleValue"></ds-toggle>
+                        <p>开关状态: {{ toggleValue ? '开启' : '关闭' }}</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+&lt;ds-toggle v-model="toggleValue"&gt;&lt;/ds-toggle&gt;
+                    </pre>
+                </div>
+            </div>
+            
+            <!-- 输入框组件 -->
+            <div class="section">
+                <h2 class="section-title">Input 输入框</h2>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <div class="component-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                            <ds-input v-model="inputValue" placeholder="请输入内容"></ds-input>
+                            <ds-input placeholder="带清除图标" clearable></ds-input>
+                            <ds-input prefix="user" placeholder="带前缀图标"></ds-input>
+                            <ds-input suffix="search" placeholder="带后缀图标"></ds-input>
+                        </div>
+                        <p>输入内容: {{ inputValue }}</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+&lt;ds-input v-model="inputValue" placeholder="请输入内容"&gt;&lt;/ds-input&gt;
+&lt;ds-input placeholder="带清除图标" clearable&gt;&lt;/ds-input&gt;
+&lt;ds-input prefix="user" placeholder="带前缀图标"&gt;&lt;/ds-input&gt;
+                    </pre>
+                </div>
             </div>
             
             <!-- 消息提示 -->
             <div class="section">
                 <h2 class="section-title">Message 消息</h2>
-                <div class="component-row">
-                    <ds-button @click="showMessage('info')">信息提示</ds-button>
-                    <ds-button @click="showMessage('success')">成功提示</ds-button>
-                    <ds-button @click="showMessage('warning')">警告提示</ds-button>
-                    <ds-button @click="showMessage('error')">错误提示</ds-button>
+                <div class="demo-card">
+                    <div class="demo-card-title">基础用法</div>
+                    <div class="demo-card-content">
+                        <div class="component-row">
+                            <ds-button @click="showInfo">信息提示</ds-button>
+                            <ds-button @click="showSuccess">成功提示</ds-button>
+                            <ds-button @click="showWarning">警告提示</ds-button>
+                            <ds-button @click="showError">错误提示</ds-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+// 在方法中使用
+methods: {
+  showInfo() {
+    this.$message.info('这是一条信息提示');
+  },
+  showSuccess() {
+    this.$message.success('这是一条成功提示');
+  }
+}
+                    </pre>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- 引入Vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
-    <!-- 引入组件库 -->
-    <script src="https://cdn.jsdelivr.net/gh/AnswerLau/ds/dist/design-system.umd.js"></script>
-    
+
+    <!-- 先引入Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.js"></script>
+    <!-- 引入设计系统 -->
+    <script src="../dist/design-system.js"></script>
     <script>
-        const { createApp } = Vue;
-        
-        const app = createApp({
+        // 创建Vue应用
+        const app = Vue.createApp({
             data() {
                 return {
-                    inputValue: '',
                     checked1: false,
-                    checked2: false,
+                    checked2: true,
                     radio: '1',
-                    toggleValue: false
+                    toggleValue: true,
+                    inputValue: '',
+                    selectValue: '',
+                    options: [
+                        { value: 'option1', label: '选项1' },
+                        { value: 'option2', label: '选项2' },
+                        { value: 'option3', label: '选项3' }
+                    ]
                 }
             },
             methods: {
-                showMessage(type) {
-                    const messages = {
-                        info: '这是一条信息提示',
-                        success: '操作成功！',
-                        warning: '警告，请注意！',
-                        error: '操作失败，请重试！'
-                    };
-                    
-                    this.$message({
-                        type: type,
-                        message: messages[type]
-                    });
+                showInfo() {
+                    this.$message.info('这是一条信息提示');
+                },
+                showSuccess() {
+                    this.$message.success('这是一条成功提示');
+                },
+                showWarning() {
+                    this.$message.warning('这是一条警告提示');
+                },
+                showError() {
+                    this.$message.error('这是一条错误提示');
                 }
+            },
+            mounted() {
+                console.log('DesignSystem version:', DesignSystem.version);
+                console.log('组件库全局变量:', window.DesignSystem);
             }
         });
         
-        // 使用设计系统组件
-        app.use(DesignSystem);
+        // 挂载应用前，提供调试信息
+        if (window.DesignSystem) {
+            console.log('DesignSystem loaded successfully:', DesignSystem);
+            // 使用设计系统
+            app.use(DesignSystem);
+        } else {
+            console.error('DesignSystem not loaded!');
+        }
         
         // 挂载应用
         app.mount('#app');
