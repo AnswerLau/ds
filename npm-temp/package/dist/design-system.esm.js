@@ -2344,7 +2344,7 @@ Object.keys(components).forEach((key) => {
   }
 });
 const DesignSystem = {
-  version: "1.0.3",
+  version: "1.0.2",
   install,
   loadStyles,
   // 导出样式加载方法

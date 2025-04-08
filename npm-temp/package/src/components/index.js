@@ -130,7 +130,7 @@ Object.keys(components).forEach(key => {
 
 // 创建组件库对象
 const DesignSystem = {
-  version: '1.0.3',
+  version: '1.0.2',
   install,
   loadStyles, // 导出样式加载方法
   ...components

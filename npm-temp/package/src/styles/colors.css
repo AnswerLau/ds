@@ -1,0 +1,246 @@
+:root {
+  /* Neutral Colors */
+  --neutral-100: #ffffff;
+  --neutral-200: #f6f6fa;
+  --neutral-300: #f0f0f5;
+  --neutral-400: #e7e9ed;
+  --neutral-500: #d8dadf;
+  --neutral-600: #b3b9c2;
+  --neutral-700: #848b96;
+  --neutral-800: #5a6270;
+  --neutral-900: #565A61;
+  --neutral-1000: #2d3541;
+  --neutral-1100: #1c2129;
+  --neutral-1200: #070b10;
+
+  /* Alpha Colors */
+  --neutral-alpha-50: rgba(73, 79, 135, 0.0500);
+  --neutral-alpha-100: rgba(83, 91, 136, 0.1000);
+  --neutral-alpha-200: rgba(26, 26, 30, 0.2000);
+  --neutral-alpha-400: rgba(26, 26, 30, 0.4000);
+  --neutral-alpha-600: rgba(26, 26, 30, 0.6000);
+  --neutral-alpha-950: rgba(26, 26, 30, 0.9500);
+  --neutral-white-alpha-500: rgba(255, 255, 255, 0.5000);
+
+  /* Atomm Colors */
+  --atomm-100: #ffebef;
+  --atomm-200: #ffc2cf;
+  --atomm-300: #ff99ae;
+  --atomm-400: #ff7a96;
+  --atomm-500: #ff4d63;
+  --atomm-600: #ff0035;
+  --atomm-700: #d9002d;
+  --atomm-800: #b20025;
+  --atomm-900: #8c001d;
+  --atomm-1000: #660015;
+  --atomm-alpha-100: rgba(255, 0, 53, 0.1000);
+  --atomm-alpha-400: rgba(255, 0, 53, 0.4000);
+
+  /* Blue Colors */
+  --blue-100: #f0f3ff;
+  --blue-200: #cadbff;
+  --blue-300: #96bffa;
+  --blue-400: #4994ff;
+  --blue-500: #4178fe;
+  --blue-600: #2661f1;
+  --blue-700: #2A65F6;
+  --blue-800: #144ace;
+  --blue-900: #0e3db1;
+  --blue-1000: #082f8d;
+  --blue-alpha-100: rgba(38, 97, 241, 0.1000);
+  --blue-alpha-400: rgba(38, 97, 241, 0.4000);
+
+  /* Green Colors */
+  --green-100: #ecfff2;
+  --green-200: #c8f8d9;
+  --green-300: #8bf3bb;
+  --green-400: #49e994;
+  --green-500: #18d57a;
+  --green-600: #00c767;
+  --green-700: #00b55e;
+  --green-800: #009d52;
+  --green-900: #008444;
+  --green-1000: #056135;
+  --green-alpha-100: rgba(0, 199, 103, 0.1000);
+  --green-alpha-400: rgba(0, 199, 103, 0.4000);
+
+  /* Orange Colors */
+  --orange-100: #fcf3ed;
+  --orange-200: #ffd8bd;
+  --orange-300: #ffc196;
+  --orange-400: #ffaa70;
+  --orange-500: #ff934a;
+  --orange-600: #ff7c23;
+  --orange-700: #e06919;
+  --orange-800: #c25810;
+  --orange-900: #a34607;
+  --orange-1000: #853600;
+  --orange-alpha-100: rgba(255, 124, 35, 0.1000);
+  --orange-alpha-400: rgba(255, 124, 35, 0.4000);
+
+  /* Red Colors */
+  --red-100: #fff2f3;
+  --red-200: #ffc9cc;
+  --red-300: #fca4a8;
+  --red-400: #fc7e84;
+  --red-500: #fa525a;
+  --red-600: #fa2730;
+  --red-700: #db1d25;
+  --red-800: #bd131a;
+  --red-900: #9e0b11;
+  --red-1000: #80050a;
+  --red-alpha-100: rgba(250, 39, 48, 0.1000);
+  --red-alpha-400: rgba(250, 39, 48, 0.4000);
+
+  /* Yellow Colors */
+  --yellow-100: #faf6e8;
+  --yellow-200: #faeec3;
+  --yellow-300: #fae596;
+  --yellow-400: #fad85a;
+  --yellow-500: #facd25;
+  --yellow-600: #faca18;
+  --yellow-700: #e0b100;
+  --yellow-800: #c29900;
+  --yellow-900: #a38100;
+  --yellow-1000: #856900;
+  --yellow-alpha-100: rgba(250, 197, 0, 0.1000);
+
+  /* Cyan Colors */
+  --cyan-100: #e4f7f7;
+  --cyan-200: #adf0f0;
+  --cyan-300: #76e3e3;
+  --cyan-400: #45d9d9;
+  --cyan-500: #21d1d1;
+  --cyan-600: #00c7c7;
+  --cyan-700: #00adad;
+  --cyan-800: #009696;
+  --cyan-900: #007d7d;
+  --cyan-1000: #006666;
+  --cyan-alpha-100: rgba(0, 199, 199, 0.1000);
+
+  /* Purple Colors */
+  --purper-100: #f6ebff;
+  --purper-200: #e6bfff;
+  --purper-300: #d399f7;
+  --purper-400: #c581f7;
+  --purper-500: #b967f6;
+  --purper-600: #af4ff6;
+  --purper-700: #963dd9;
+  --purper-800: #802dbd;
+  --purper-900: #6a20a1;
+  --purper-1000: #591e85;
+  --purper-alpha-100: rgba(175, 79, 246, 0.1000);
+
+  /* Pink Colors */
+  --pink-100: #ffebf9;
+  --pink-200: #fabee9;
+  --pink-300: #f296d8;
+  --pink-400: #f078ce;
+  --pink-500: #ed5ac4;
+  --pink-600: #eb3dba;
+  --pink-700: #cc2fa0;
+  --pink-800: #ad2386;
+  --pink-900: #941871;
+  --pink-1000: #75155a;
+  --pink-alpha-100: rgba(235, 61, 186, 0.1000);
+
+  /* Custom Things Colors */
+  --customthings-100: #e6ecfa;
+  --customthings-200: #c1d2f4;
+  --customthings-300: #9fbbf4;
+  --customthings-400: #759ff4;
+  --customthings-500: #3b77f4;
+  --customthings-600: #0050f4;
+  --customthings-700: #0048db;
+  --customthings-800: #003bb5;
+  --customthings-900: #002e8c;
+  --customthings-1000: #002166;
+  --customthings-alpha-100a: rgba(0, 80, 244, 0.1000);
+  --customthings-alpha-400a: rgba(0, 80, 244, 0.4000);
+
+  /* Semantic Colors - Background */
+  --color-bg-default: var(--neutral-100);
+  --color-bg-subtlest: var(--neutral-200);
+  --color-bg-editor: var(--neutral-400);
+  --color-bg-surface: var(--neutral-300);
+  --color-bg-modal: var(--neutral-100);
+  --color-bg-tooltip: var(--neutral-1100);
+  --color-bg-hover: var(--neutral-alpha-50);
+  --color-bg-active: var(--neutral-alpha-100);
+  --color-bg-overlay: var(--neutral-alpha-400);
+
+  /* Semantic Colors - Text */
+  --color-text-primary: var(--neutral-1200);
+  --color-text-secondary: var(--neutral-1000);
+  --color-text-tertiary: var(--neutral-700);
+  --color-text-disabled: var(--neutral-600);
+  --color-text-inverse: var(--neutral-100);
+  --color-text-inverse-secondary: var(--neutral-white-alpha-500);
+
+  /* Semantic Colors - Stroke */
+  --color-stroke-default: var(--neutral-500);
+  --color-stroke-active: var(--neutral-1200);
+  --color-stroke-divider: var(--neutral-alpha-100);
+  --color-stroke-scrollbar: var(--neutral-400);
+  --color-stroke-surround: var(--blue-600);
+
+  /* Semantic Colors - Brand */
+  --color-brand-default: var(--neutral-1200);
+  --color-brand-hover: var(--neutral-900);
+  --color-brand-active: var(--neutral-1100);
+  --color-brand-disabled: var(--neutral-500);
+  --color-brand-subtlest: var(--neutral-300);
+
+  /* Semantic Colors - Emphasize */
+  --color-emphasize-default: var(--atomm-600);
+  --color-emphasize-hover: var(--atomm-700);
+  --color-emphasize-active: var(--atomm-800);
+  --color-emphasize-disabled: var(--atomm-alpha-400);
+  --color-emphasize-subtlest: var(--atomm-100);
+
+  /* Semantic Colors - Blue */
+  --color-blue-default: var(--blue-600);
+  --color-blue-hover: var(--blue-700);
+  --color-blue-active: var(--blue-800);
+  --color-blue-disabled: var(--blue-alpha-400);
+  --color-blue-subtlest: var(--blue-100);
+  --color-blue-dark-default: var(--blue-400);
+  --color-blue-dark-hover: var(--blue-500);
+  --color-blue-dark-active: var(--blue-600);
+
+  /* Semantic Colors - Green */
+  --color-green-default: var(--green-600);
+  --color-green-hover: var(--green-700);
+  --color-green-active: var(--green-800);
+  --color-green-disabled: var(--green-alpha-400);
+  --color-green-subtlest: var(--green-100);
+
+  /* Semantic Colors - Warning */
+  --color-warning-default: var(--orange-600);
+  --color-warning-hover: var(--orange-700);
+  --color-warning-active: var(--orange-800);
+  --color-warning-disabled: var(--orange-alpha-400);
+  --color-warning-subtlest: var(--orange-100);
+
+  /* Semantic Colors - Red */
+  --color-red-default: var(--red-600);
+  --color-red-hover: var(--red-700);
+  --color-red-active: var(--red-800);
+  --color-red-disabled: var(--red-alpha-400);
+  --color-red-subtlest: var(--red-100);
+
+  /* Semantic Colors - Purple */
+  --color-purple-default: var(--purper-600);
+  --color-purple-subtlest: var(--purper-100);
+
+  /* Semantic Colors - Yellow */
+  --color-yellow-default: var(--yellow-600);
+  --color-yellow-subtlest: var(--yellow-100);
+
+  /* Icon Filters */
+  --brand-color-filter: brightness(0) saturate(100%) invert(6%) sepia(13%) saturate(1010%) hue-rotate(176deg) brightness(93%) contrast(94%);
+  --blue-color-filter: brightness(0) saturate(100%) invert(34%) sepia(83%) saturate(3714%) hue-rotate(211deg) brightness(94%) contrast(98%);
+  --green-color-filter: brightness(0) saturate(100%) invert(55%) sepia(74%) saturate(1415%) hue-rotate(121deg) brightness(96%) contrast(101%);
+  --warning-color-filter: brightness(0) saturate(100%) invert(58%) sepia(93%) saturate(1285%) hue-rotate(356deg) brightness(103%) contrast(101%);
+  --red-color-filter: brightness(0) saturate(100%) invert(36%) sepia(82%) saturate(5554%) hue-rotate(339deg) brightness(101%) contrast(97%);
+} 

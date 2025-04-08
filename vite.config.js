@@ -43,7 +43,7 @@ export default defineConfig({
       name: 'DesignSystem',
       fileName: (format) => {
         if (format === 'es') return 'design-system.esm.js';
-        if (format === 'umd') return `design-system${process.env.NODE_ENV === 'production' ? '.min' : ''}.js`;
+        if (format === 'umd') return 'design-system.min.js';
         return `design-system.${format}.js`;
       },
       formats: ['es', 'umd']

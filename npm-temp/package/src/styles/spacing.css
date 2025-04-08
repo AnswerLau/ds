@@ -1,0 +1,14 @@
+:root {
+  /* 基础间距 token */
+  --space-0: 0px;
+  --space-50: 4px;
+  --space-75: 6px;
+  --space-100: 8px;
+  --space-150: 12px;
+  --space-200: 16px;
+  --space-300: 24px;
+  --space-400: 32px;
+  --space-500: 40px;
+  --space-800: 64px;
+  --space-1000: 80px;
+} 

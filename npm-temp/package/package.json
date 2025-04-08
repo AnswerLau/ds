@@ -1,8 +1,8 @@
 {
   "name": "@answerlau/design-system",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "基于Vue 3的高质量UI组件库，支持按需引入与自动样式加载",
-  "main": "dist/design-system.min.js",
+  "main": "dist/design-system.js",
   "module": "dist/design-system.esm.js",
   "types": "types/index.d.ts",
   "style": "dist/styles/design-system.css",

@@ -1,0 +1,21 @@
+:root {
+  /* 阴影 token - 浅色阴影 */
+  --elevation-shadow-light-100: 0px 0px 12px rgba(0, 0, 0, 0.05),
+                               0px 0px 2px rgba(0, 0, 0, 0.05);
+  
+  --elevation-shadow-light-200: 0px 16px 32px rgba(0, 0, 0, 0.1),
+                               0px 2px 8px rgba(0, 0, 0, 0.1);
+  
+  --elevation-shadow-light-300: 0px 40px 80px rgba(0, 0, 0, 0.1),
+                               0px 2px 8px rgba(0, 0, 0, 0.1);
+  
+  /* 阴影 token - 深色阴影（深色背景容器） */
+  --elevation-shadow-dark-100: 0px 0px 12px rgba(0, 0, 0, 0.1),
+                              0px 0px 2px rgba(0, 0, 0, 0.1);
+  
+  --elevation-shadow-dark-200: 0px 16px 32px rgba(0, 0, 0, 0.2),
+                              0px 2px 8px rgba(0, 0, 0, 0.2);
+  
+  --elevation-shadow-dark-300: 0px 40px 80px rgba(0, 0, 0, 0.2),
+                              0px 2px 8px rgba(0, 0, 0, 0.2);
+} 

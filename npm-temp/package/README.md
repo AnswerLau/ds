@@ -32,14 +32,12 @@ pnpm add @answerlau/design-system
 
 ### 使用CDN
 
-可以通过CDN引入，组件库将注册为全局变量`DesignSystem`
-
 ```html
 <!-- 引入Vue 3 -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 <!-- 引入组件库 (样式将自动加载) -->
-<script src="https://cdn.jsdelivr.net/npm/@answerlau/design-system@1.0.2/dist/design-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@answerlau/design-system@1.0.1/dist/design-system.min.js"></script>
 ```
 
 ## 快速开始
@@ -84,16 +82,10 @@ app.mount('#app')
 
 ```html
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>设计系统CDN示例</title>
-  <!-- 引入Vue 3 -->
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  
-  <!-- 引入组件库 (样式将自动加载) -->
-  <script src="https://cdn.jsdelivr.net/npm/@answerlau/design-system@1.0.2/dist/design-system.min.js"></script>
+    <title>Design System Demo</title>
+    <!-- 不需要手动引入CSS，将自动加载 -->
 </head>
 <body>
     <div id="app">
@@ -101,6 +93,8 @@ app.mount('#app')
         <ds-input v-model="inputValue" placeholder="请输入内容"></ds-input>
     </div>
     
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@answerlau/design-system@1.0.1/dist/design-system.min.js"></script>
     <script>
         const app = Vue.createApp({
             data() {

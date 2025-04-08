@@ -1,0 +1,12 @@
+:root {
+  /* 圆角 token */
+  --radius-none: 0;
+  --radius-tiny: 2px;
+  --radius-small: 4px;
+  --radius-medium: 6px;
+  --radius-large: 8px;
+  --radius-xlarge: 12px;
+  --radius-xxlarge: 16px;
+  --radius-xxxlarge: 24px;
+  --radius-circle: 50%;
+} 
