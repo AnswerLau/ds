@@ -5,7 +5,7 @@ yarn.lock
 package-lock.json
 
 # production
-/dist
+# /dist  # 注释掉这一行，允许dist目录中的文件被提交
 /lib
 /es
 
