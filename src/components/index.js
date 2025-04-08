@@ -13,8 +13,11 @@ import Slider from './ds_Slider.vue';
 import Message from './ds_Message.vue';
 import message from './message';
 
+// 导入全局样式
+import '../styles/main.css';
+
 // 组件列表
-const components = [
+const components = {
   Button,
   Icon,
   Input,
@@ -28,21 +31,60 @@ const components = [
   Tab,
   Slider,
   Message
-];
+};
 
-// 安装方法
+// 检测运行环境并动态加载样式
+const loadStyles = () => {
+  if (typeof document !== 'undefined') {
+    // 检测是否已经加载了样式
+    const styleLoaded = document.querySelector('link[href*="design-system.css"]');
+    
+    if (!styleLoaded) {
+      // 尝试确定样式文件的路径
+      let stylePath = './dist/styles/design-system.css'; // 默认路径
+      
+      // 尝试基于当前脚本路径推断样式路径
+      const scriptEls = document.querySelectorAll('script');
+      for (let i = 0; i < scriptEls.length; i++) {
+        const src = scriptEls[i].src || '';
+        if (src.includes('design-system.min.js') || src.includes('design-system.js')) {
+          // 从脚本路径推断样式路径
+          stylePath = src.replace(/\/design-system(\.min)?\.js/, '/styles/design-system.css');
+          break;
+        }
+      }
+      
+      // 创建并附加样式链接
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = stylePath;
+      link.onload = () => console.log('设计系统样式已加载:', stylePath);
+      link.onerror = (err) => console.error('设计系统样式加载失败:', stylePath, err);
+      
+      // 添加到头部
+      document.head.appendChild(link);
+    }
+  }
+};
+
+// 安装方法 - 改进以支持Vue 3
 const install = function(app) {
-  // 判断是否已安装
-  if (install.installed) return;
+  if (!app || !app.component) {
+    console.error('DesignSystem安装失败：app实例无效或不存在component方法');
+    return;
+  }
   
   console.log('Installing Design System components...');
   
+  // 尝试加载样式
+  loadStyles();
+  
   // 注册所有组件
-  components.forEach(component => {
-    const name = component.name;
-    if (name) {
+  Object.keys(components).forEach(key => {
+    const component = components[key];
+    if (component.name) {
       // 以kebab-case方式注册组件 (ds_Button -> ds-button)
-      const kebabName = name.replace(/_/g, '-').toLowerCase();
+      const kebabName = component.name.replace(/_/g, '-').toLowerCase();
       console.log(`注册组件: ${kebabName}`);
       app.component(kebabName, component);
     }
@@ -50,64 +92,66 @@ const install = function(app) {
   
   // 添加实例方法
   if (app.config && app.config.globalProperties) {
-    // Vue 3方式
     app.config.globalProperties.$message = message;
-  } else if (app.prototype) {
-    // Vue 2方式
-    app.prototype.$message = message;
   }
   
-  install.installed = true;
   console.log('Design System installation complete');
+  return app;
 };
 
-// 自动安装
+// 兼容Vue 2的全局安装
 if (typeof window !== 'undefined' && window.Vue) {
-  const Vue = window.Vue;
-  
-  // 检测Vue版本
-  if (Vue.version && Vue.version.startsWith('2.')) {
-    // Vue 2
-    if (typeof Vue.use === 'function') {
-      Vue.use({ install });
-    }
-  } else {
-    // Vue 3
-    if (typeof Vue.createApp === 'function') {
-      const app = Vue.createApp({});
-      app.use({ install });
-    }
+  if (window.Vue.createApp) {
+    // Vue 3 - do nothing, wait for app.use()
+    console.log('检测到Vue 3环境，请使用app.use(DesignSystem)安装');
+  } else if (window.Vue.component) {
+    // Vue 2 - register components globally
+    console.log('检测到Vue 2环境，正在进行全局安装');
+    install({ component: window.Vue.component, config: { globalProperties: window.Vue.prototype } });
   }
 }
 
+// 确保每个组件都有正确的install方法
+Object.keys(components).forEach(key => {
+  const component = components[key];
+  if (component && typeof component === 'object') {
+    component.install = function(app) {
+      // 尝试加载样式
+      loadStyles();
+      
+      if (component.name) {
+        const name = component.name.replace(/_/g, '-').toLowerCase();
+        app.component(name, component);
+      }
+      return app;
+    };
+  }
+});
+
 // 创建组件库对象
 const DesignSystem = {
-  version: '1.0.0',
+  version: '1.0.2',
   install,
-  Button,
-  Icon,
-  Input,
-  Checkbox,
-  Radio,
-  Toggle,
-  Alert,
-  Tooltip,
-  Select,
-  Dropdown,
-  Tab,
-  Slider,
-  Message
+  loadStyles, // 导出样式加载方法
+  ...components
 };
 
 // 添加组件实例方法
 DesignSystem.message = message;
 
-// 关键修改: 为浏览器环境提供全局对象
+// 添加支持Vue 3的install方法
+DesignSystem.install = install;
+
+// 暴露到全局
 if (typeof window !== 'undefined') {
   window.DesignSystem = DesignSystem;
+  // 自动加载样式（CDN环境）
+  setTimeout(loadStyles, 0);
 }
 
-// 导出
+export default DesignSystem;
+
+// 导出单个组件
 export {
   Button,
   Icon,
@@ -123,7 +167,6 @@ export {
   Slider,
   Message,
   message,
-  install
-};
-
-export default DesignSystem; 
+  install,
+  loadStyles
+}; 

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设计系统 v1.0.1 - 组件库测试</title>
+   
+    <!-- 资源加载出错处理 -->
+    <script>
+        window.addEventListener('error', function(e) {
+            if(e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT') {
+                console.error('资源加载失败:', e.target.src || e.target.href);
+                document.getElementById('error-box').style.display = 'block';
+                document.getElementById('error-msg').textContent += 
+                    '加载失败: ' + (e.target.src || e.target.href) + '\n';
+            }
+        }, true);
+    </script>
+    
+    <!-- 使用本地文件 -->
+    <link rel="stylesheet" href="./dist/styles/design-system.css" onerror="console.error('CSS加载失败')">
+    
+    <!-- 使用备用CDN引入Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- 使用本地组件库文件 -->
+    <script src="./dist/design-system.min.js"></script>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        #app {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .component-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        
+        .section-title {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .component-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .status-box {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-line;
+        }
+        
+        .error-box {
+            margin: 20px 0;
+            padding: 15px;
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-line;
+            color: #c62828;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 错误信息显示 -->
+    <div id="error-box" class="error-box">
+        <h3>资源加载错误</h3>
+        <p>请检查文件路径是否正确，或者尝试使用以下替代方法：</p>
+        <ul>
+            <li>确认dist目录中有正确构建的文件</li>
+            <li>尝试使用绝对路径</li>
+            <li>检查网络连接</li>
+        </ul>
+        <pre id="error-msg"></pre>
+    </div>
+
+    <div id="app">
+        <div class="header">
+            <h1>设计系统组件测试</h1>
+            <p>版本：1.0.1 | 日期：{{ currentDate }}</p>
+        </div>
+        
+        <div class="component-section">
+            <h2 class="section-title">资源加载状态</h2>
+            <div class="status-box">
+                Vue加载: {{ vueLoaded ? '✅ 成功' : '❌ 失败' }}<br>
+                组件库加载: {{ dsLoaded ? '✅ 成功' : '❌ 失败' }}<br>
+            </div>
+        </div>
+        
+        <div class="component-section" v-if="dsLoaded">
+            <h2 class="section-title">按钮组件</h2>
+            <div class="component-row">
+                <ds-button>默认按钮</ds-button>
+                <ds-button type="primary">主要按钮</ds-button>
+                <ds-button type="secondary">次要按钮</ds-button>
+                <ds-button type="emphasize">强调按钮</ds-button>
+                <ds-button type="text">文本按钮</ds-button>
+                <ds-button type="link">链接按钮</ds-button>
+            </div>
+            
+            <div class="component-row">
+                <ds-button size="small">小按钮</ds-button>
+                <ds-button>中按钮</ds-button>
+                <ds-button size="large">大按钮</ds-button>
+                <ds-button size="xlarge">超大按钮</ds-button>
+            </div>
+            
+            <div class="component-row">
+                <ds-button disabled>禁用按钮</ds-button>
+                <ds-button loading>加载中</ds-button>
+                <ds-button icon-left="home">带图标</ds-button>
+                <ds-button icon-only="settings"></ds-button>
+            </div>
+        </div>
+        
+        <div class="component-section">
+            <h2 class="section-title">输入框组件</h2>
+            <div class="component-row">
+                <ds-input v-model="inputValue" placeholder="请输入内容"></ds-input>
+                <ds-input disabled placeholder="禁用状态"></ds-input>
+                <ds-input readonly value="只读状态"></ds-input>
+            </div>
+            
+            <div class="component-row">
+                <ds-input v-model="inputValue" show-count max-length="20" placeholder="最大输入20个字符"></ds-input>
+                <ds-input v-model="inputValue" icon-left="user" placeholder="带图标的输入框"></ds-input>
+                <ds-input v-model="inputValue" icon-right="close" placeholder="右侧图标"></ds-input>
+            </div>
+        </div>
+        
+        <div class="component-section">
+            <h2 class="section-title">单选框和复选框</h2>
+            <div class="component-row">
+                <ds-checkbox v-model="checked1">复选框1</ds-checkbox>
+                <ds-checkbox v-model="checked2">复选框2</ds-checkbox>
+                <ds-checkbox disabled>禁用复选框</ds-checkbox>
+            </div>
+            
+            <div class="component-row">
+                <ds-radio v-model="radio" value="1">单选项1</ds-radio>
+                <ds-radio v-model="radio" value="2">单选项2</ds-radio>
+                <ds-radio v-model="radio" value="3" disabled>禁用单选</ds-radio>
+            </div>
+        </div>
+        
+        <div class="component-section">
+            <h2 class="section-title">开关组件</h2>
+            <div class="component-row">
+                <ds-toggle v-model="toggle1"></ds-toggle>
+                <ds-toggle v-model="toggle2" size="small"></ds-toggle>
+                <ds-toggle v-model="toggle3" disabled></ds-toggle>
+            </div>
+        </div>
+        
+        <div class="component-section">
+            <h2 class="section-title">提示组件</h2>
+            <div class="component-row">
+                <ds-button @click="showMessage('info')">信息提示</ds-button>
+                <ds-button @click="showMessage('success')">成功提示</ds-button>
+                <ds-button @click="showMessage('warning')">警告提示</ds-button>
+                <ds-button @click="showMessage('error')">错误提示</ds-button>
+            </div>
+            
+            <div class="component-row">
+                <ds-alert type="info" title="信息提示">这是一条信息提示</ds-alert>
+                <ds-alert type="success" title="成功提示">这是一条成功提示</ds-alert>
+                <ds-alert type="warning" title="警告提示">这是一条警告提示</ds-alert>
+                <ds-alert type="error" title="错误提示">这是一条错误提示</ds-alert>
+            </div>
+        </div>
+        
+        <div class="status-box" v-if="status">
+            {{ status }}
+        </div>
+    </div>
+
+    <script>
+        // 检查Vue和组件库是否加载
+        const vueLoaded = typeof Vue !== 'undefined';
+        const dsLoaded = typeof window.DesignSystem !== 'undefined';
+        
+        if(!vueLoaded) {
+            console.error('Vue未成功加载');
+            document.getElementById('error-box').style.display = 'block';
+            document.getElementById('error-msg').textContent += 'Vue框架未加载成功\n';
+        }
+        
+        if(!dsLoaded) {
+            console.error('组件库未成功加载');
+            document.getElementById('error-box').style.display = 'block';
+            document.getElementById('error-msg').textContent += '组件库未加载成功\n';
+        }
+        
+        // 仅在Vue加载成功时创建应用
+        if(vueLoaded) {
+            // 创建Vue应用
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        currentDate: new Date().toISOString().split('T')[0],
+                        inputValue: '',
+                        checked1: false,
+                        checked2: true,
+                        radio: '1',
+                        toggle1: true,
+                        toggle2: false,
+                        toggle3: true,
+                        status: '',
+                        vueLoaded: vueLoaded,
+                        dsLoaded: dsLoaded
+                    };
+                },
+                methods: {
+                    showMessage(type) {
+                        if(this.$message) {
+                            switch(type) {
+                                case 'info':
+                                    this.$message.info('这是一条信息提示');
+                                    break;
+                                case 'success':
+                                    this.$message.success('这是一条成功提示');
+                                    break;
+                                case 'warning':
+                                    this.$message.warning('这是一条警告提示');
+                                    break;
+                                case 'error':
+                                    this.$message.error('这是一条错误提示');
+                                    break;
+                            }
+                            
+                            this.status = `显示 ${type} 类型消息 - ${new Date().toLocaleTimeString()}`;
+                        } else {
+                            this.status = `组件库消息服务未加载 - ${new Date().toLocaleTimeString()}`;
+                        }
+                    }
+                },
+                mounted() {
+                    this.status = '组件库测试页面已加载 - ' + new Date().toLocaleTimeString();
+                    console.log('组件库版本：', window.DesignSystem?.version);
+                }
+            });
+            
+            // 仅在组件库加载成功时使用
+            if(dsLoaded) {
+                app.use(window.DesignSystem);
+            }
+            
+            // 挂载应用
+            app.mount('#app');
+        } else {
+            document.getElementById('app').innerHTML = '<div class="status-box">Vue框架加载失败，无法初始化应用</div>';
+        }
+    </script>
+</body>
+</html> 

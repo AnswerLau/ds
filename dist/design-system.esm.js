@@ -83,7 +83,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Icon = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
 const _sfc_main$b = {
-  name: "ds_Button",
+  name: "ds-button",
   components: {
     ds_icon: Icon
   },
@@ -140,6 +140,11 @@ const _sfc_main$b = {
         this.$emit("click", event);
       }
     }
+  },
+  // 添加自定义install方法，支持app.use(Button)
+  install(app) {
+    app.component(this.name, this);
+    return app;
   }
 };
 const _hoisted_1$b = ["disabled"];
@@ -2259,7 +2264,7 @@ messageAPI.closeAll = () => {
   instances.length = 0;
   console.log("All messages have been closed");
 };
-const components = [
+const components = {
   Button,
   Icon,
   Input,
@@ -2273,59 +2278,83 @@ const components = [
   Tab,
   Slider,
   Message
-];
+};
+const loadStyles = () => {
+  if (typeof document !== "undefined") {
+    const styleLoaded = document.querySelector('link[href*="design-system.css"]');
+    if (!styleLoaded) {
+      let stylePath = "./dist/styles/design-system.css";
+      const scriptEls = document.querySelectorAll("script");
+      for (let i = 0; i < scriptEls.length; i++) {
+        const src = scriptEls[i].src || "";
+        if (src.includes("design-system.min.js") || src.includes("design-system.js")) {
+          stylePath = src.replace(/\/design-system(\.min)?\.js/, "/styles/design-system.css");
+          break;
+        }
+      }
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = stylePath;
+      link.onload = () => console.log("设计系统样式已加载:", stylePath);
+      link.onerror = (err) => console.error("设计系统样式加载失败:", stylePath, err);
+      document.head.appendChild(link);
+    }
+  }
+};
 const install = function(app) {
-  if (install.installed) return;
+  if (!app || !app.component) {
+    console.error("DesignSystem安装失败：app实例无效或不存在component方法");
+    return;
+  }
   console.log("Installing Design System components...");
-  components.forEach((component) => {
-    const name = component.name;
-    if (name) {
-      const kebabName = name.replace(/_/g, "-").toLowerCase();
+  loadStyles();
+  Object.keys(components).forEach((key) => {
+    const component = components[key];
+    if (component.name) {
+      const kebabName = component.name.replace(/_/g, "-").toLowerCase();
       console.log(`注册组件: ${kebabName}`);
       app.component(kebabName, component);
     }
   });
   if (app.config && app.config.globalProperties) {
     app.config.globalProperties.$message = messageAPI;
-  } else if (app.prototype) {
-    app.prototype.$message = messageAPI;
   }
-  install.installed = true;
   console.log("Design System installation complete");
+  return app;
 };
 if (typeof window !== "undefined" && window.Vue) {
-  const Vue = window.Vue;
-  if (Vue.version && Vue.version.startsWith("2.")) {
-    if (typeof Vue.use === "function") {
-      Vue.use({ install });
-    }
-  } else {
-    if (typeof Vue.createApp === "function") {
-      const app = Vue.createApp({});
-      app.use({ install });
-    }
+  if (window.Vue.createApp) {
+    console.log("检测到Vue 3环境，请使用app.use(DesignSystem)安装");
+  } else if (window.Vue.component) {
+    console.log("检测到Vue 2环境，正在进行全局安装");
+    install({ component: window.Vue.component, config: { globalProperties: window.Vue.prototype } });
   }
 }
+Object.keys(components).forEach((key) => {
+  const component = components[key];
+  if (component && typeof component === "object") {
+    component.install = function(app) {
+      loadStyles();
+      if (component.name) {
+        const name = component.name.replace(/_/g, "-").toLowerCase();
+        app.component(name, component);
+      }
+      return app;
+    };
+  }
+});
 const DesignSystem = {
-  version: "1.0.0",
+  version: "1.0.2",
   install,
-  Button,
-  Icon,
-  Input,
-  Checkbox,
-  Radio,
-  Toggle,
-  Alert,
-  Tooltip,
-  Select,
-  Dropdown,
-  Tab,
-  Slider,
-  Message
+  loadStyles,
+  // 导出样式加载方法
+  ...components
 };
 DesignSystem.message = messageAPI;
+DesignSystem.install = install;
 if (typeof window !== "undefined") {
   window.DesignSystem = DesignSystem;
+  setTimeout(loadStyles, 0);
 }
 export {
   Alert,
@@ -2343,5 +2372,6 @@ export {
   Tooltip,
   DesignSystem as default,
   install,
+  loadStyles,
   messageAPI as message
 };

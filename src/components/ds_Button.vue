@@ -37,7 +37,7 @@
 import DsIcon from './ds_Icon.vue';
 
 export default {
-  name: 'ds_Button',
+  name: 'ds-button',
   components: {
     ds_icon: DsIcon
   },
@@ -94,6 +94,11 @@ export default {
         this.$emit('click', event);
       }
     }
+  },
+  // 添加自定义install方法，支持app.use(Button)
+  install(app) {
+    app.component(this.name, this);
+    return app;
   }
 }
 </script>
