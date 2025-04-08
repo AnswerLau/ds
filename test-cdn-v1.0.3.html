@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System CDN测试 - v1.0.3</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .card h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .demo-section {
+            margin: 10px 0;
+        }
+        .status-banner {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: #f0f9ff;
+            border-left: 4px solid #2661f1;
+        }
+        .log {
+            background: #f5f5f5;
+            border-radius: 5px;
+            padding: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+        .debug-btn {
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        .debug-btn:hover {
+            background: #e5e5e5;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>Design System CDN测试 - v1.0.3</h1>
+            <p>测试使用CDN引入方式加载组件库</p>
+        </div>
+
+        <div class="status-banner">
+            <h2>加载状态</h2>
+            <div id="status-log" class="log">正在检测组件库加载状态...</div>
+            <button class="debug-btn" onclick="checkStatus()">刷新状态</button>
+            <button class="debug-btn" onclick="loadStylesManually()">手动加载样式</button>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <h3>按钮组件</h3>
+                <div class="demo-section">
+                    <ds-button type="primary">主要按钮</ds-button>
+                    <ds-button type="secondary">次要按钮</ds-button>
+                    <ds-button type="text">文本按钮</ds-button>
+                </div>
+                <div class="demo-section">
+                    <ds-button type="primary" icon-left="star">带图标按钮</ds-button>
+                    <ds-button type="primary" loading>加载中</ds-button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>输入框组件</h3>
+                <div class="demo-section">
+                    <ds-input placeholder="请输入内容"></ds-input>
+                </div>
+                <div class="demo-section">
+                    <ds-input prefix="search" placeholder="搜索..."></ds-input>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>切换组件</h3>
+                <div class="demo-section">
+                    <ds-toggle v-model="toggleValue">开关切换</ds-toggle>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>复选框组件</h3>
+                <div class="demo-section">
+                    <ds-checkbox v-model="checkboxValue">同意协议</ds-checkbox>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>单选框组件</h3>
+                <div class="demo-section">
+                    <ds-radio v-model="radioValue" label="1">选项1</ds-radio>
+                    <ds-radio v-model="radioValue" label="2">选项2</ds-radio>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>提示组件</h3>
+                <div class="demo-section">
+                    <ds-button @click="showMessage">显示消息提示</ds-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- 引入组件库 -->
+    <script src="https://cdn.jsdelivr.net/npm/@answerlau/design-system@1.0.3/dist/design-system.min.js"></script>
+
+    <script>
+        // 创建Vue应用
+        const app = Vue.createApp({
+            data() {
+                return {
+                    toggleValue: true,
+                    checkboxValue: false,
+                    radioValue: '1'
+                }
+            },
+            methods: {
+                showMessage() {
+                    this.$message.success('操作成功！');
+                }
+            },
+            mounted() {
+                // 页面加载完成后检查状态
+                setTimeout(checkStatus, 1000);
+            }
+        });
+
+        // 使用设计系统
+        app.use(DesignSystem);
+        
+        // 挂载应用
+        app.mount('#app');
+
+        // 检查组件库加载状态
+        function checkStatus() {
+            const logEl = document.getElementById('status-log');
+            let status = '组件库加载状态检查:\n';
+            
+            // 检查DesignSystem全局对象
+            status += `全局对象: ${typeof window.DesignSystem === 'object' ? '✅ 已加载' : '❌ 未加载'}\n`;
+            
+            if (typeof window.DesignSystem === 'object') {
+                status += `版本: ${window.DesignSystem.version || '未知'}\n`;
+                status += `自动加载样式: ${typeof window.DesignSystem.loadStyles === 'function' ? '✅ 支持' : '❌ 不支持'}\n`;
+            }
+            
+            // 检查CSS样式是否加载
+            const styleLoaded = document.querySelector('link[href*="design-system.css"]');
+            status += `样式文件: ${styleLoaded ? '✅ 已加载' : '❌ 未加载'}\n`;
+            
+            if (styleLoaded) {
+                status += `样式路径: ${styleLoaded.href}\n`;
+            }
+            
+            logEl.textContent = status;
+        }
+
+        // 手动加载样式
+        function loadStylesManually() {
+            const logEl = document.getElementById('status-log');
+            logEl.textContent += '尝试手动加载样式...\n';
+            
+            if (window.DesignSystem && typeof window.DesignSystem.loadStyles === 'function') {
+                try {
+                    window.DesignSystem.loadStyles();
+                    logEl.textContent += '✅ 样式加载函数已执行\n';
+                    setTimeout(checkStatus, 500);
+                } catch (err) {
+                    logEl.textContent += `❌ 样式加载失败: ${err.message}\n`;
+                }
+            } else {
+                logEl.textContent += '❌ loadStyles方法不可用\n';
+            }
+        }
+    </script>
+</body>
+</html> 
